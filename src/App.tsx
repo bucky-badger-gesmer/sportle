@@ -45,7 +45,7 @@ const GET_PLAYER_INDEX = gql`
 
 
 function App() {
-  const { loading, error, data } = useQuery(GET_PLAYER_INDEX);
+  const { loading, data } = useQuery(GET_PLAYER_INDEX);
 
   console.log('poop', data)
 
