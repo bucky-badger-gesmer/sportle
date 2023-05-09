@@ -1,7 +1,7 @@
 import "./App.css";
 import { useQuery, gql } from "@apollo/client";
 import { PlayerIndexQuery } from "./graphql/globalTypes";
-import { Spin } from "antd";
+import { Spin, Table } from "antd";
 
 const GET_PLAYER_INDEX = gql`
   query PlayerIndex {
@@ -60,19 +60,49 @@ function App() {
     );
   }
 
+  const players = playerIndex?.length
+    ? playerIndex?.map((player) => {
+        return {
+          id: player?.id,
+          firstName: player?.firstName,
+          lastName: player?.lastName,
+          position: player?.position,
+          jerseyNumber: player?.jerseyNumber,
+        };
+      })
+    : [];
+
+  const columns = [
+    {
+      title: "Player ID",
+      dataIndex: "id",
+      key: "id",
+    },
+    {
+      title: "First Name",
+      dataIndex: "firstName",
+      key: "firstName",
+    },
+    {
+      title: "Last Name",
+      dataIndex: "lastName",
+      key: "lastName",
+    },
+    {
+      title: "Position",
+      dataIndex: "position",
+      key: "position",
+    },
+    {
+      title: "Jersey Number",
+      dataIndex: "jerseyNumber",
+      key: "jerseyNumber",
+    },
+  ];
+
   return (
     <div className="App">
-      <h1>There have been {playerIndex?.length} players to play in the NBA!</h1>
-
-      {playerIndex?.map((player, i) => {
-        return (
-          <ul>
-            <li key={i}>
-              {player?.firstName} {player?.lastName}
-            </li>
-          </ul>
-        );
-      })}
+      <Table dataSource={players} columns={columns} />
     </div>
   );
 }
