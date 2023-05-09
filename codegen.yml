@@ -1,0 +1,14 @@
+schema: "./src/graphql/schema.graphql"
+documents:
+  - "./src/**/*.{ts,tsx,jsx,js}"
+generates:
+  src/graphql/globalTypes.ts:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+    config:
+      withHooks: false
+      withHOC: false
+      withComponent: false
+      avoidOptionals: true
+      preResolveTypes: true

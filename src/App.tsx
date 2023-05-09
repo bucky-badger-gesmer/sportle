@@ -1,5 +1,7 @@
-import './App.css';
+import "./App.css";
 import { useQuery, gql } from "@apollo/client";
+import { PlayerIndexQuery } from "./graphql/globalTypes";
+import { Spin } from "antd";
 
 const GET_PLAYER_INDEX = gql`
   query PlayerIndex {
@@ -43,19 +45,34 @@ const GET_PLAYER_INDEX = gql`
   }
 `;
 
-
 function App() {
-  const { loading, data } = useQuery(GET_PLAYER_INDEX);
+  const { loading, data, error } = useQuery<PlayerIndexQuery>(GET_PLAYER_INDEX);
 
-  console.log('poop', data)
+  if (error) throw error;
+
+  const playerIndex = data?.nba?.playerIndex;
 
   if (loading) {
-    return (<>loading...</>)
+    return (
+      <>
+        <Spin size="large" />
+      </>
+    );
   }
 
   return (
     <div className="App">
-      <h1>There have been {data.nba.playerIndex.length} players to play in the NBA!</h1>
+      <h1>There have been {playerIndex?.length} players to play in the NBA!</h1>
+
+      {playerIndex?.map((player, i) => {
+        return (
+          <ul>
+            <li key={i}>
+              {player?.firstName} {player?.lastName}
+            </li>
+          </ul>
+        );
+      })}
     </div>
   );
 }
