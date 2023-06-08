@@ -1,5 +1,5 @@
 import "./App.css";
-import { Content, Footer, Header } from "antd/es/layout/layout";
+import { Content, Header } from "antd/es/layout/layout";
 import NbaPlayers from "./components/NbaPlayers";
 
 function App() {
